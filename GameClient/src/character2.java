@@ -40,10 +40,6 @@ public class character2 extends sprite implements Runnable {
 	
 	
 	
-	
-
-	
-	
 	public void setCharacter1Label(JLabel temp) {
 		
 		this.character1Label = temp;

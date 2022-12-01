@@ -27,6 +27,7 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 	
 	int count = 0;
 	
+	private character1ClientService character1_C_Service;
 	
 	private character2[] Character2 = new character2[4];
 	
@@ -42,7 +43,8 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 	
 	private Boolean wonCondition = false;
 	
-	final int CLIENT_PORT = 4870;
+	final int CLIENT_PORT = 4780;
+	
 	private int intScore;
 	
 	private Db db;
@@ -590,7 +592,7 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 			
 		}
 		
-	
+		
 		
 		// graphic elements label for log
 		
@@ -836,6 +838,9 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 		
 		
 		
+		
+		
+	
 	
 	
 		add(wonGameButton);
@@ -941,18 +946,24 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 		
 		
 		
+		
 		Thread t1 = new Thread ( new Runnable () {
 			public void run () {
 				synchronized(this) {
 					
-			
-						
+
+				    int x = Character1.getX();
+				    
+					
+					int y = Character1.getY();
 					
 					System.out.println("Waiting for server responses...");
 						
 						try {
+						
 							
 							Socket s2 = new Socket("localhost", SOCKET_PORT);
+							
 							
 							
 							OutputStream outStream = s2.getOutputStream();
@@ -964,25 +975,96 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 								
 								if (e.getKeyCode() == KeyEvent.VK_UP) {
 									
+									y -= gameProperties.MC_step;
 									
-									count++;
-		
-									out.println("UP " + count);
-									
-								    
-									out.flush();
+									if (y + Character1.getHeight() <= 0) {
+										
+										y = gameProperties.screen_height;
+									}
 									
 									
-					
+									
+									
+									System.out.println("Y is sent");
 									
 								}
 								
+								
+								out.println("Y " + y);
+								
+								out.flush();
+								
+								
+								
+							
 					
 							
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						
+						try {
+							
+							System.out.println("Trying to receive data from server");
+						
+		
+							ServerSocket server = new ServerSocket(CLIENT_PORT);
+							
+							System.out.println("CLIENT SERVER UP");
+							
+							
+									Socket socketClient = server.accept();
+									
+									System.out.println("ClIENT SERVER CONNECTED");
+									
+									character1ClientService character1_C_Service = new character1ClientService(socketClient);
+									
+									Thread t2 = new Thread(character1_C_Service);
+									
+									t2.start();
+									
+									
+									
+								/*	
+									Scanner scan = new Scanner(socketClient.getInputStream());
+									
+						
+									
+									String command = scan.next();
+									
+									
+									
+									if (!scan.hasNext()) {
+										
+										
+										System.out.println("NO DATA");
+										
+										
+									} else {
+										
+										
+										if (command.equals("number")) {
+											
+											int number = scan.nextInt();							
+											
+											System.out.println("CLIENT RECEIVED NUMBER FROM SERVER  " + number);
+										}
+										
+
+										
+										
+									}
+									*/
+									server.close();
+									
+									
+									
+								} catch (Exception d) {
+									
+								
+								}
+								
 						
 						System.out.println("client connected");
 						
@@ -1003,54 +1085,7 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 	
 		System.out.println("TEST1");
 		
-		try {
-			
-			System.out.println("TEST2");
-			
-			ServerSocket server = new ServerSocket(CLIENT_PORT);
-			
-			
-			System.out.println("ClIENT SERVER UP");
-			
-					
-					Socket socketClient = server.accept();
-					
-					System.out.println("ClIENT SERVER CONNECTED");
-					
-					Scanner scan = new Scanner(socketClient.getInputStream());
-					
 		
-					
-					String command = scan.next();
-					
-					
-					
-					if (!scan.hasNext()) {
-						
-						
-						System.out.println("NO DATA");
-						
-						
-					} else {
-						
-						
-						if (command.equals("zbi")) {
-							
-							int number = scan.nextInt();							
-							
-							System.out.println("QLAWIIIIIIII CLIENT SHDO ALMERAKSHI  " + number);
-						}
-						
-						
-						
-						
-					}
-					
-					
-				} catch (Exception d) {
-					
-				
-				}
 				
 				
 
@@ -1068,9 +1103,7 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 		 * 
 		 * 
 		
-		int x = Character1.getX();
-		
-		int y = Character1.getY();
+	
 		
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			
