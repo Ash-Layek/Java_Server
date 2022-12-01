@@ -48,8 +48,8 @@ public class gamePrepServer  {
 		private String name, score;
 		
 		
-		
-		
+	
+			
 
 		
 		
@@ -65,9 +65,6 @@ public class gamePrepServer  {
 			
 			
 			ServerSocket server = new ServerSocket(SOCKET_PORT);
-			
-		
-					
 			
 			System.out.println("Server Game Is Running");
 		
@@ -87,9 +84,14 @@ public class gamePrepServer  {
 								
 								Scanner scan = new Scanner(socket.getInputStream());
 								
-								Socket clientSocket = new Socket("localhost", CLIENT_PORT);
+								character1ServerService character1_serverS = new character1ServerService(socket);
+								
+								Thread character1 = new Thread(character1_serverS);
+								
+								character1.start();
 								
 								
+							/*	
 								if (!scan.hasNext()) {
 									
 									
@@ -114,22 +116,24 @@ public class gamePrepServer  {
 											
 											int number = scan.nextInt();
 											
-											System.out.println("LQHAB F DAR " + number);
+											System.out.println("SERVER GOT  NUMBER FROM CLIENT " + number);
+											
+											Socket clientSocket = new Socket("localhost", CLIENT_PORT);
 											
 											OutputStream outStream = clientSocket.getOutputStream();
 											
 											PrintWriter out  = new PrintWriter(outStream);
 											
-											out.println("zbi " + number);
+											out.println("number " + number);
 											
-											System.out.println("ZBI MSHA MN SERVER");
+											System.out.println("Number passed from server");
 											
 											
 											
 											 out.flush();
 											
 											
-											
+											clientSocket.close();
 											
 											
 										}
@@ -137,7 +141,7 @@ public class gamePrepServer  {
 										
 										
 									}
-									
+									*/
 									
 							} catch(Exception e) {
 								

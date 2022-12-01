@@ -1,10 +1,5 @@
-/Db.class
-/backgroundImage.class
-/character1.class
-/character2.class
+/character1Server.class
 /gamePrepServer$1.class
+/gamePrepServerService.class
 /gamePrepServer.class
-/gameProperties.class
-/lava.class
-/log.class
-/sprite.class
+/character1ServerService.class
