@@ -952,15 +952,15 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 				synchronized(this) {
 					
 
-				    int x = Character1.getX();
-				    
-					
-					int y = Character1.getY();
+				   
 					
 					System.out.println("Waiting for server responses...");
 						
 						try {
 						
+							 int x = Character1.getX();
+							    
+								int y = Character1.getY();
 							
 							Socket s2 = new Socket("localhost", SOCKET_PORT);
 							
@@ -982,15 +982,57 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 										y = gameProperties.screen_height;
 									}
 									
+									out.println("Y " + y);
 									
-									
-									
+								
 									System.out.println("Y is sent");
 									
+								} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+									
+									x -= gameProperties.MC_step;
+									
+									if (x + Character1.getWidth() <= 0) {
+										
+										x = gameProperties.screen_width;
+									}
+									
+									out.println("X " + x);
+									
+								} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+									
+									
+									y+=  gameProperties.MC_step;
+									
+									
+									if (y  >= gameProperties.screen_height) {
+										
+										
+										y = -1 * Character1.getHeight();
+										
+									}
+									
+									out.println("Y " + y);
+									
+									
+								} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+									
+									
+									x += gameProperties.MC_step;
+									
+									
+									if (x >= gameProperties.screen_width) {
+										
+										
+										x = -1 * Character1.getWidth();
+										
+									}
+									
+									out.println("X " + x);
 								}
 								
 								
-								out.println("Y " + y);
+							//	out.println("Y " + y);
+								
 								
 								out.flush();
 								
@@ -1019,6 +1061,10 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 									System.out.println("ClIENT SERVER CONNECTED");
 									
 									character1ClientService character1_C_Service = new character1ClientService(socketClient);
+									
+									character1_C_Service.setCharacter1(Character1);
+									
+									character1_C_Service.setCharacter1Label(character1Label);
 									
 									Thread t2 = new Thread(character1_C_Service);
 									
@@ -1105,18 +1151,9 @@ public class gamePrep extends JFrame implements KeyListener, ActionListener {
 		
 	
 		
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			
-			y -= gameProperties.MC_step;
-			
-			if (y + Character1.getHeight() <= 0) {
-				
-				y = gameProperties.screen_height;
-			}
 			
 			
-			
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+		else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			
 			x -= gameProperties.MC_step;
 			
